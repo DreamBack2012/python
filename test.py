@@ -15,7 +15,8 @@ def Caltime(date1, date2):
     return (date2 - date1).days
 
 
-begin = ["2020", "09", "02", "02", "08", "03"]
+begin = ["2020", "9", "02", "02", "08", "03"]
 end = ["2020", "09", "03"]
-print("-".join(begin))
+# print("-".join(begin))
 # print(Caltime("-".join(begin), "-".join(end)))
+print("{:02}".format(int(begin[1])))

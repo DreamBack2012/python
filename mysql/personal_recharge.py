@@ -79,15 +79,17 @@ ORDER BY date ASC;"
 
         # 画树状图
         if begin[0] != end[0] or begin[1] != end[1]:
-            title = "个人充值订单日报表：" + begin[0] \
+            title = "个人充值订单：" + begin[0] \
                 + str('{:02}'.format(int(begin[1]))) \
                 + str('{:02}'.format(int(begin[2]))) \
                 + "-" + end[0] \
                 + str('{:02}'.format(int(end[1]))) \
                 + str('{:02}'.format(int(end[2]))) 
         else:
-            title = "个人充值订单日报表：" + begin[0] \
-                + str('{:02}'.format(begin[1]))          
+            print(begin[0])
+            print(begin[1])
+            title = "个人充值订单：" + begin[0] \
+                + str('{:02}'.format(int(begin[1])))          
         filename = title.replace("：", "") + ".svg"
         filename = os.path.join(sys.path[0], filename)
         print(filename)
@@ -136,11 +138,10 @@ ORDER BY date ASC;"
 
         # 画树状图
         if(begin_year == end_year):
-            title = "个人充值订单月报表：" + str(end_year) + "年"
-            filename = "个人充值订单月报表" + str(end_year) + ".svg"
+            title = "个人充值订单：" + str(end_year)
         else:
-            title = "个人充值订单月报表：" + str(begin_year) + "-" + str(end_year) + "年"
-            filename =  "个人充值订单月报表"+ str(begin_year) + "_" + str(end_year) + ".svg"
+            title = "个人充值订单：" + str(begin_year) + "-" + str(end_year)
+        filename = title.replace("：", "") + ".svg"
         filename = os.path.join(sys.path[0], filename)
         print(filename)
         visual = VisualSvg(dates, amounts, title, filename)
@@ -182,8 +183,8 @@ ORDER BY date ASC;"
             amounts.append(round(results[i]["a"], 2)) # 保留2位有效数字
 
         # 画树状图
-        title = "个人充值订单年报表：" + str(begin_year) + "-" + str(end_year) + "年"
-        filename =  "个人充值订单年报表"+ str(begin_year) + "_" + str(end_year) + ".svg"
+        title = "个人充值订单：" + str(begin_year) + "-" + str(end_year)
+        filename = title.replace("：", "") + ".svg"
         filename = os.path.join(sys.path[0], filename)
         print(filename)
         visual = VisualSvg(dates, amounts, title, filename)
@@ -220,4 +221,4 @@ ORDER BY date ASC;"
 
 if __name__ == "__main__":
     obj = PersonalRecharge()
-    obj.query("2020-08-20 00:00:00", "2020-09-30 00:00:00", "day")
+    obj.query("2020-08-01 00:00:00", "2020-09-30 00:00:00", "day")
