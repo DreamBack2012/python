@@ -7,7 +7,7 @@
 
 import re
 import calendar, time, datetime
-import sys, os
+import sys, os, webbrowser
 from aliyun_mysql import AliyunMysql
 from visual_svg import VisualSvg
 
@@ -28,6 +28,17 @@ class PersonalRecharge():
         date1 = datetime.datetime(date1[0],date1[1],date1[2])
         date2 = datetime.datetime(date2[0],date2[1],date2[2])
         return (date2 - date1).days
+
+    def get_filename(self, title):
+        """
+        获取保存的文件名
+        参数说明：
+        title，图标标签
+        """
+        filename = title.replace("：", "") + ".svg"
+        filename = os.path.join(sys.path[0], filename)
+        self.filename = filename
+        print(self.filename)
 
     def query_the_day(self, begin, end):
         """
@@ -86,14 +97,10 @@ ORDER BY date ASC;"
                 + str('{:02}'.format(int(end[1]))) \
                 + str('{:02}'.format(int(end[2]))) 
         else:
-            print(begin[0])
-            print(begin[1])
             title = "个人充值订单：" + begin[0] \
                 + str('{:02}'.format(int(begin[1])))          
-        filename = title.replace("：", "") + ".svg"
-        filename = os.path.join(sys.path[0], filename)
-        print(filename)
-        visual = VisualSvg(dates, amounts, title, filename)
+        self.get_filename(title)
+        visual = VisualSvg(dates, amounts, title, self.filename)
         visual.draw()
 
     def query_the_mouth(self, begin_year, end_year):
@@ -221,4 +228,7 @@ ORDER BY date ASC;"
 
 if __name__ == "__main__":
     obj = PersonalRecharge()
-    obj.query("2020-08-01 00:00:00", "2020-09-30 00:00:00", "day")
+    obj.query("2020-09-01 00:00:00", "2020-09-30 00:00:00", "day")
+    webbrowser.open(obj.filename)
+    # cmd = r"C:\Users\47606\AppData\Local\Google\Chrome\Application\chrome.exe " + obj.filename
+    # os.system(cmd)
